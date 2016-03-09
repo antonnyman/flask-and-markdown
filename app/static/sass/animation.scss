@@ -1,0 +1,18 @@
+@keyframes enterup {
+  0% {
+    margin-top: 1em;
+  }
+  100% {
+    margin-top: 0em;
+  }
+}
+
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

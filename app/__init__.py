@@ -11,34 +11,20 @@ app.config.from_object(__name__)
 
 pages = FlatPages(app)
 
-
-
-def page_list (pages, limit = None):
-    p_list = (p for p in pages if 'date' in p.meta)
-    p_list = sorted(p_list, reverse = True, key = lambda p: p.meta['date'])
-    return p_list[:limit]
-
-def page_titles (pages, limit = None):
-    titles = {}
-    all_pages = page_list(pages)
-    for p in all_pages:
-        titles.append(p.meta['title'])
-    return titles
-
-def page_dates(pages, limit = None):
-    dates = []
-    all_pages = page_list(pages)
-    for p in all_pages:
-        dates.append(p.meta['date'])
-    return dates
-
-""" ROUTES """
-
 @app.route('/')
 def index():
-    # all_pages = page_list(pages)
-    # for p in all_pages:
-    return jsonify({'title': page_titles(pages)})
+    return app.send_static_file('distr/index.html')
+
+@app.route('/all')
+def all():
+    results = []
+    for page in pages:
+        p = {"title": page['title'],
+            "date": str(page['date']),
+            "body": page.body
+            }
+        results.append(p)
+    return jsonify(results = results)
 
 @app.route('/<path:path>/')
 def page(path):
