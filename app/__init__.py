@@ -21,7 +21,11 @@ def pygments_css():
 def index():
     return app.send_static_file('distr/index.html')
 
-@app.route('/index')
+@app.route('/<path:path>')
+def other(path):
+    return app.send_static_file('distr/index.html')
+
+@app.route('/index.json')
 def all():
     results = []
     articles = (p for p in pages)
@@ -33,21 +37,26 @@ def all():
             "path": l.path,
             #"body": l
             }
-        print(p)
         results.append(p)
 
     return jsonify(results = results)
 
-@app.route('/z')
-def z():
-    articles = (p for p in pages)
-    latest = sorted(articles, reverse=True,
-                    key=lambda p: p.meta['date'])
-    return jsonify(articles = latest)
-
-@app.route('/<path:path>/')
+@app.route('/<path:path>.json/')
 def page(path):
-    page = pages.get_or_404(path)
+    page = pages.get(path)
     return jsonify({'title': page['title'],
                     'date': str(page['date']),
                     'body': page})
+
+
+@app.route('/nav.json')
+def nav():
+    results = []
+    items = (p for p in pages if 'sort' in p.meta)
+    sort = sorted(items, reverse=True, key=lambda p: p.meta['sort'])
+
+    for s in sort:
+        s = {'title': s['title']}
+        results.append(s)
+
+    return jsonify(results = results)

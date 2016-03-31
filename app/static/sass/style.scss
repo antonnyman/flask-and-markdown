@@ -1,10 +1,9 @@
 @import 'animation';
 
 #content {
-  animation: fadein 1s ease;
+
 }
 
 .enter {
-  animation-name: fadein, enterup;
-  animation-duration: 1s, 1s;
+  animation: fadein 0.2s ease;
 }

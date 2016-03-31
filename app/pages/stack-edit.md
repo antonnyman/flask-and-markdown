@@ -1,6 +1,8 @@
 title: StackEdit
 date: 2016-03-09
 
+[Eton Mess](/eton-mess)
+
 Welcome to StackEdit!
 ===================
 

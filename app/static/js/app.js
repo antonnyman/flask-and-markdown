@@ -1,19 +1,30 @@
 page('/', index);
 page('/:id', node);
-page({hashbang: true});
 page();
 
-
 function index() {
+  nav();
   list();
 }
-
-
 
 function template(name) {
   var el = document.getElementById('content');
   reset(el);
   el.classList.add(name);
+}
+
+function nav() {
+  var el = get('nav');
+  var ul = document.createElement('ul');
+  ul.setAttribute('class', 'nav');
+  el.appendChild(ul);
+
+  getJson('nav.json').then(function(data) {
+
+    for(var root in data) {
+      console.log(root);
+    }
+  });
 }
 
 function list() {
@@ -22,7 +33,7 @@ function list() {
   template('index');
   ul.setAttribute('id', 'coollist');
   el.appendChild(ul);
-  getJson('/index').then(function(data) {
+  getJson('/index.json').then(function(data) {
     for(var root in data) {
       if(data.hasOwnProperty(root)) {
         var tree = data[root];
@@ -37,6 +48,7 @@ function list() {
           a.href = node.path;
           li.appendChild(a);
           ul.appendChild(li);
+          el.setAttribute('class', 'enter');
         }
       }
     }
@@ -47,7 +59,8 @@ function node(ctx) {
   var id = ctx.params.id;
   template('partial');
   var el = document.getElementById('content');
-  getJson(id).then(function(data) {
+  getJson(id + ".json").then(function(data) {
+    el.setAttribute('class', 'enter');
     el.innerHTML = data.body;
   });
 }
@@ -57,10 +70,11 @@ function reset(el) {
   el.className = "";
 }
 
-
 function getJson(url) {
     return new Promise(function(resolve, reject) {
       var xhr = new XMLHttpRequest();
+      xhr.addEventListener('progress', updateProgress);
+    //  xhr.addEventListener('load', transferComplete);
       xhr.open('get', url, true);
       xhr.responseType = 'json';
       xhr.onload = function() {
@@ -74,3 +88,16 @@ function getJson(url) {
       xhr.send();
     });
 };
+
+function updateProgress(event) {
+  if(event.lengthComputable) {
+    var percentComplete = event.loaded / event.total;
+    console.log(percentComplete);
+  } else {
+    // nothing
+  }
+}
+
+function get(element) {
+  return document.getElementById(element);
+}
