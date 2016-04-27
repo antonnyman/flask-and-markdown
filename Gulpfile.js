@@ -19,7 +19,7 @@ gulp.task('js', function() {
     return gulp.src('app/static/js/*.js')
     .pipe(concat('scripts.js'))
     .pipe(rename({suffix: '.min'}))
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(gulp.dest('app/static/distr'));
   });
 

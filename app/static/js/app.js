@@ -4,7 +4,7 @@ page();
 
 function index() {
   nav();
-  list();
+  //list();
 }
 
 function template(name) {
@@ -16,13 +16,29 @@ function template(name) {
 function nav() {
   var el = get('nav');
   var ul = document.createElement('ul');
+  template('nav');
   ul.setAttribute('class', 'nav');
   el.appendChild(ul);
 
   getJson('nav.json').then(function(data) {
 
     for(var root in data) {
-      console.log(root);
+      if(data.hasOwnProperty(root)) {
+        var tree = data[root];
+        for(var key in tree) {
+          var node = tree[key];
+          var li = document.createElement('li');
+          li.setAttribute('class', 'nav-item');
+          var a = document.createElement('a');
+          var linkText = document.createTextNode(node.title);
+          a.appendChild(linkText);
+          a.title = node.title;
+          a.href = node.path;
+          li.appendChild(a);
+          ul.appendChild(li);
+          el.setAttribute('class', 'enter');
+        }
+      }
     }
   });
 }
@@ -54,6 +70,13 @@ function list() {
     }
   });
 }
+
+function parseJson(href, json) {
+  getJson(href).then(function(data) {
+    for(var root in data){}
+  })
+}
+
 
 function node(ctx) {
   var id = ctx.params.id;
