@@ -25,21 +25,21 @@ def index():
 def other(path):
     return app.send_static_file('distr/index.html')
 
-@app.route('/index.json')
-def all():
-    results = []
-    articles = (p for p in pages)
-    latest = sorted(articles, reverse=True, key=lambda p: p.meta['date'])
-
-    for l in latest:
-        p = {"title": l['title'],
-            "date": str(l['date']),
-            "path": l.path,
-            #"body": l
-            }
-        results.append(p)
-
-    return jsonify(results = results)
+#@app.route('/index.json')
+#def index():
+#    results = []
+#    articles = (p for p in pages)
+#    latest = sorted(articles, reverse=True, key=lambda p: p.meta['date'])
+#
+#    for l in latest:
+#        p = {"title": l['title'],
+#            "date": str(l['date']),
+#            "path": l.path,
+#            #"body": l
+#            }
+#        results.append(p)
+#
+#    return jsonify(results = results)
 
 @app.route('/<path:path>.json/')
 def page(path):
@@ -56,7 +56,23 @@ def nav():
     sort = sorted(items, reverse=True, key=lambda p: p.meta['sort'])
 
     for s in sort:
-        s = {'title': s['title']}
-        results.append(s)
+        p = {'title': s['title'],
+            'path': s.path
+            }
+        results.append(p)
+
+    return jsonify(results = results)
+
+@app.route('/all.json')
+def all():
+    results = []
+    items = (p for p in pages if 'sort' in p.meta)
+    sort = sorted(items, reverse=True, key=lambda p: p.meta['sort'])
+
+    for s in sort:
+        p = {'title': s['title'],
+            'path': s.path
+            }
+        results.append(p)
 
     return jsonify(results = results)

@@ -1,1 +1,1 @@
-@keyframes enterup{0%{padding-top:1em}100%{padding-top:-4em}}@keyframes fadein{0%{opacity:0}100%{opacity:1}}.enter{animation:fadein 0.2s ease}
+@keyframes enterup{0%{padding-top:1em}100%{padding-top:-4em}}@keyframes fadein{0%{opacity:0}100%{opacity:1}}.enter{animation:fadein 0.2s ease}.columns{flex-wrap:wrap}

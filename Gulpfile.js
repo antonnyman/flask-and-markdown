@@ -3,6 +3,7 @@ var gulp = require('gulp'),
     sass = require('gulp-sass'),
     autoprefixer = require('gulp-autoprefixer'),
     concat = require('gulp-concat'),
+    order = require('gulp-order'),
     cssnano =  require('gulp-cssnano');
     rename = require('gulp-rename'),
     uglify = require('gulp-uglify');
@@ -17,9 +18,10 @@ gulp.task('styles', function() {
 
 gulp.task('js', function() {
     return gulp.src('app/static/js/*.js')
+    .pipe(order(['page.js', 'app.js']))
     .pipe(concat('scripts.js'))
     .pipe(rename({suffix: '.min'}))
-    //.pipe(uglify())
+    .pipe(uglify())
     .pipe(gulp.dest('app/static/distr'));
   });
 

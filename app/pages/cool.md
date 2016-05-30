@@ -1,6 +1,7 @@
-title: Shet is cool
+title: Cool
 date: 2014-10-12
 sort: 1
+
 
 Hello world!
 Whats up

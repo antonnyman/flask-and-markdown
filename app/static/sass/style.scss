@@ -1,9 +1,12 @@
 @import 'animation';
 
 #content {
-
 }
 
 .enter {
   animation: fadein 0.2s ease;
+}
+
+.columns {
+  flex-wrap: wrap;
 }

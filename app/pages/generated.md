@@ -1,5 +1,6 @@
 title: Generated
 date: 2016-03-06
+sort: 3
 
 Dillinger is a cloud-enabled, mobile-ready, offline-storage, AngularJS powered HTML5 Markdown editor.
 
